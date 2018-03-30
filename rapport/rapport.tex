@@ -1,0 +1,109 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{stmaryrd}
+\usepackage{marvosym}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{mathrsfs}
+\usepackage{bbm}
+\usepackage{manfnt}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{nicefrac}
+\usepackage{beramono}
+
+\title{\titre}
+\date{}
+\author{\auteur}
+
+
+
+\makeatletter
+\newlength{\boxed@align@width}
+\newcommand{\boxedalign}[2]{
+	#1 & \setlength{\boxed@align@width}{\widthof{$\displaystyle#1$}+0.1389em+\fboxsep+\fboxrule}
+	\hspace{-\boxed@align@width}\addtolength{\boxed@align@width}{-\fboxsep-\fboxrule}\boxed{\vphantom{#1}\hspace{\boxed@align@width}#2}}
+\makeatother
+
+\newcommand{\titre}{Devoir Maison de Programmation Avancée : Mini-ML}
+\newcommand{\titreCourt}{DM -- Mini-ML}
+\newcommand{\auteur}{Marius \textsc{Dufraisse}}
+
+\newcommand{\im}[1]{\Im m\left(#1\right)}
+\newcommand{\re}[1]{\Re e\left(#1\right)}
+
+\newcommand{\N}{\mathbbm{N}}
+\newcommand{\R}{\mathbbm{R}}
+
+\newcommand{\prop}{\mathcal{P}}
+
+\newcommand{\parEnt}[1]{\lfloor #1\rfloor}
+
+\newtheoremstyle{thm}{3pt}{3pt}{\itshape}{\parindent}{\bfseries}{.}{.5em}{}
+\theoremstyle{thm}
+\newtheorem*{proposition}{Proposition}
+\newtheorem*{theoreme}{Théorème}
+\newtheorem*{lemme}{Lemme}
+\newtheorem*{conjecture}{Conjecture}
+\newtheorem*{corollaire}{Corollaire}
+\newtheorem*{contraposee}{Contraposée}
+\newtheorem{corol}{Corollaire}
+\newtheoremstyle{def}{3pt}{3pt}{}{\parindent}{\bfseries}{.}{.5em}{}
+\theoremstyle{def}
+\newtheorem*{definition}{Définition}
+\newtheorem*{remarque}{Remarque}
+\newtheorem*{remarques}{Remarques}
+\newtheorem*{exemple}{Exemple}
+\newtheoremstyle{dem}{3pt}{3pt}{}{\parindent}{\itshape}{.}{.5em}{}
+\theoremstyle{dem}
+\newtheorem*{dem}{Démonstration}
+
+\newcommand{\diff}{\mathop{}\mathopen{}\mathrm{d}}
+\newcommand{\trig}[1]{\left\langle #1 \right\rangle}
+\newcommand{\trigb}[1]{\trig{#1}^\bullet}
+\newcommand{\trigs}[1]{\trig{#1}^*}
+\newcommand{\subs}[2]{\left[#1:=#2\right]}
+\newcommand{\surj}[2]{\mathscr{S}\left(#1,#2\right)}
+\newcommand{\context}[1]{\mathcal{C}\left[#1\right]}
+
+\geometry{a4paper, top=2.0cm, bottom=2cm, left=2.5cm , right=2.5cm}
+
+\newcommand{\defFun}[5]{
+\begin{array}{ccccc}
+	#1 & : & #2 & \to & #3 \\
+	& & #4 & \mapsto & #5 \\
+\end{array}}
+
+\newcommand{\lambd}{$\lambda$}
+\newcommand{\inter}[2]{\left\llbracket#1,#2\right\rrbracket}
+
+\begin{document}
+	\renewcommand{\labelitemi}{\textbullet}
+
+	\pagestyle{fancy}
+	\renewcommand{\headheight}{13.6pt}
+	\renewcommand{\headrulewidth}{0.4pt}
+	\renewcommand{\footrulewidth}{0.4pt}
+	\renewcommand{\headsep}{15pt}
+	\lhead{\auteur}
+	\chead{}
+	\rhead{\titreCourt}
+	\lfoot{\leftmark}
+	\cfoot{}
+	\rfoot{{\small Page \nicefrac{\thepage}{\pageref{LastPage}} }}
+
+
+	\maketitle
+	\thispagestyle{fancy}
+
+
+
+\end{document}
