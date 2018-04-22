@@ -112,6 +112,21 @@
 	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{prec}t\sem\codem{prec}{u}} \]
 	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{prec}n:\types{nat}}\]
 
+	\paragraph{Question 2.}
+	On définit les fonctions \code{plus} et \code{fois} de la façon suivante
+	\begin{align*}
+		\codem{let\ rec}\ &plus\ x^{\types{int}} =\\
+		&\codem{let}\ aux = \\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{prec}x)(\codem{succ}y))\\
+		\codem{in}\ &aux
+		
+	\end{align*}
 
+	\begin{align*}
+		\codem{let\ rec}\ &fois\ x^{\types{int}} =\\
+		&\codem{let}\ aux = \\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{prec}x)\ y))\\
+		\codem{in}\ &aux
+	\end{align*}
 
 \end{document}
