@@ -115,18 +115,26 @@
 	\paragraph{Question 2.}
 	On définit les fonctions \code{plus} et \code{fois} de la façon suivante
 	\begin{align*}
-		\codem{let\ rec}\ &plus\ x^{\types{int}} =\\
+		\codem{let\ rec}\ &plus\ = \lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
 		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{prec}x)(\codem{succ}y))\\
-		\codem{in}\ &aux
-		
+		\codem{in}\ &aux\\
+		&\codem{in\ }plus
 	\end{align*}
 
 	\begin{align*}
-		\codem{let\ rec}\ &fois\ x^{\types{int}} =\\
+		\codem{let\ rec}\ &fois=\lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
 		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{prec}x)\ y))\\
-		\codem{in}\ &aux
+		\codem{in}\ &aux\\
+		&\codem{in\ }fois
 	\end{align*}
+
+	\paragraph{Question 3.}
+	En Mini-ML, la fonction factorielle peut s'écrire ainsi
+	let rec f = $\lambda x^{int}$
+
+
+
 
 \end{document}
