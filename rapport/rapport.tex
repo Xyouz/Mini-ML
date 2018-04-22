@@ -13,12 +13,11 @@
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{mathrsfs}
-\usepackage{bbm}
-\usepackage{manfnt}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{nicefrac}
-\usepackage{beramono}
+
+%\usepackage{fancyhdr}
+%\usepackage{lastpage}
+% \usepackage{nicefrac}
+\usepackage{mathpartir}
 
 \title{\titre}
 \date{}
@@ -44,6 +43,8 @@
 \newcommand{\R}{\mathbbm{R}}
 
 \newcommand{\prop}{\mathcal{P}}
+
+\newcommand{\sem}{\Rightarrow}
 
 \newcommand{\parEnt}[1]{\lfloor #1\rfloor}
 
@@ -84,25 +85,32 @@
 
 \newcommand{\lambd}{$\lambda$}
 \newcommand{\inter}[2]{\left\llbracket#1,#2\right\rrbracket}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\codem}[1]{\mathtt{#1}}
+\newcommand{\types}[1]{\mathbf{#1}}
 
 \begin{document}
 	\renewcommand{\labelitemi}{\textbullet}
 
-	\pagestyle{fancy}
-	\renewcommand{\headheight}{13.6pt}
-	\renewcommand{\headrulewidth}{0.4pt}
-	\renewcommand{\footrulewidth}{0.4pt}
-	\renewcommand{\headsep}{15pt}
-	\lhead{\auteur}
-	\chead{}
-	\rhead{\titreCourt}
-	\lfoot{\leftmark}
-	\cfoot{}
-	\rfoot{{\small Page \nicefrac{\thepage}{\pageref{LastPage}} }}
+	% \pagestyle{fancy}
+	% \renewcommand{\headheight}{13.6pt}
+	% \renewcommand{\headrulewidth}{0.4pt}
+	% \renewcommand{\footrulewidth}{0.4pt}
+	% \renewcommand{\headsep}{15pt}
+	% \lhead{\auteur}
+	% \chead{}
+	% \rhead{\titreCourt}
+	% \lfoot{\leftmark}
+	% \cfoot{}
+	% \rfoot{{\small Page \nicefrac{\thepage}{\pageref{LastPage}} }}
 
 
 	\maketitle
-	\thispagestyle{fancy}
+	% \thispagestyle{fancy}
+	\paragraph{Question 1.}
+	Pour inclure les fonctions \code{prec} et \code{succ} on ajoute les règles de sémantique et de typage suivantes
+	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{prec}t\sem\codem{prec}{u}} \]
+	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{prec}n:\types{nat}}\]
 
 
 
