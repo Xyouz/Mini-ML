@@ -107,17 +107,19 @@
 
 	\maketitle
 	% \thispagestyle{fancy}
+	\section{La spécification de Mini-ML.}
+
 	\paragraph{Question 1.}
-	Pour inclure les fonctions \code{prec} et \code{succ} on ajoute les règles de sémantique et de typage suivantes
-	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{prec}t\sem\codem{prec}{u}} \]
-	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{prec}n:\types{nat}}\]
+	Pour inclure les fonctions \code{pred} et \code{succ} on ajoute les règles de sémantique et de typage suivantes
+	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{pred}t\sem\codem{pred}{u}} \]
+	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{pred}n:\types{nat}}\]
 
 	\paragraph{Question 2.}
 	On définit les fonctions \code{plus} et \code{fois} de la façon suivante
 	\begin{align*}
 		\codem{let\ rec}\ &plus\ = \lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
-		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{prec}x)(\codem{succ}y))\\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{pred}x)(\codem{succ}y))\\
 		\codem{in}\ &aux\\
 		&\codem{in\ }plus
 	\end{align*}
@@ -125,15 +127,16 @@
 	\begin{align*}
 		\codem{let\ rec}\ &fois=\lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
-		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{prec}x)\ y))\\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{pred}x)\ y))\\
 		\codem{in}\ &aux\\
 		&\codem{in\ }fois
 	\end{align*}
 
+
 	\paragraph{Question 3.}
 	En Mini-ML, la fonction factorielle peut s'écrire ainsi
 	let rec f = $\lambda x^{int}$.\\
-	if x=0 then 1 else fois x (f (\code{prec}x))\\
+	if x=0 then 1 else fois x (f (\code{pred}x))\\
 	in f\\
 
 	\paragraph{Question 4.}
@@ -147,7 +150,11 @@
 
 	\paragraph{Question 6.}
 
-	
+	\paragraph{Question 7.}
+
+	\section{Implémentation de Mini-ML}
+	\paragraph{Question 11.}
+
 
 
 
