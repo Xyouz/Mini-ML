@@ -132,9 +132,15 @@
 
 	\paragraph{Question 3.}
 	En Mini-ML, la fonction factorielle peut s'écrire ainsi
-	let rec f = $\lambda x^{int}$
+	let rec f = $\lambda x^{int}$.\\
+	if x=0 then 1 else fois x (f (\code{prec}x))\\
+	in f\\
 
-
+	\paragraph{Question 4.}
+	Même s'il n'est pas possible d'écrire\\
+	let (x,y) =(2,3) in x\\
+	en Mini-ML, on peut s'en sortir en utilisant les fonctions \code{fst} et \code{snd} de la façon suivante\\
+	let c = (2,3) in let x = fst c in let y = snd c in x
 
 
 \end{document}
