@@ -13,12 +13,11 @@
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{mathrsfs}
-\usepackage{bbm}
-\usepackage{manfnt}
-\usepackage{fancyhdr}
-\usepackage{lastpage}
-\usepackage{nicefrac}
-\usepackage{beramono}
+
+%\usepackage{fancyhdr}
+%\usepackage{lastpage}
+% \usepackage{nicefrac}
+\usepackage{mathpartir}
 
 \title{\titre}
 \date{}
@@ -44,6 +43,8 @@
 \newcommand{\R}{\mathbbm{R}}
 
 \newcommand{\prop}{\mathcal{P}}
+
+\newcommand{\sem}{\Rightarrow}
 
 \newcommand{\parEnt}[1]{\lfloor #1\rfloor}
 
@@ -84,25 +85,77 @@
 
 \newcommand{\lambd}{$\lambda$}
 \newcommand{\inter}[2]{\left\llbracket#1,#2\right\rrbracket}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\codem}[1]{\mathtt{#1}}
+\newcommand{\types}[1]{\mathbf{#1}}
 
 \begin{document}
 	\renewcommand{\labelitemi}{\textbullet}
 
-	\pagestyle{fancy}
-	\renewcommand{\headheight}{13.6pt}
-	\renewcommand{\headrulewidth}{0.4pt}
-	\renewcommand{\footrulewidth}{0.4pt}
-	\renewcommand{\headsep}{15pt}
-	\lhead{\auteur}
-	\chead{}
-	\rhead{\titreCourt}
-	\lfoot{\leftmark}
-	\cfoot{}
-	\rfoot{{\small Page \nicefrac{\thepage}{\pageref{LastPage}} }}
+	% \pagestyle{fancy}
+	% \renewcommand{\headheight}{13.6pt}
+	% \renewcommand{\headrulewidth}{0.4pt}
+	% \renewcommand{\footrulewidth}{0.4pt}
+	% \renewcommand{\headsep}{15pt}
+	% \lhead{\auteur}
+	% \chead{}
+	% \rhead{\titreCourt}
+	% \lfoot{\leftmark}
+	% \cfoot{}
+	% \rfoot{{\small Page \nicefrac{\thepage}{\pageref{LastPage}} }}
 
 
 	\maketitle
-	\thispagestyle{fancy}
+	% \thispagestyle{fancy}
+	\section{La spécification de Mini-ML.}
+
+	\paragraph{Question 1.}
+	Pour inclure les fonctions \code{pred} et \code{succ} on ajoute les règles de sémantique et de typage suivantes
+	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{pred}t\sem\codem{pred}{u}} \]
+	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{pred}n:\types{nat}}\]
+
+	\paragraph{Question 2.}
+	On définit les fonctions \code{plus} et \code{fois} de la façon suivante
+	\begin{align*}
+		\codem{let\ rec}\ &plus\ = \lambda x^{\types{int}} .\\
+		&\codem{let}\ aux = \\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{pred}x)(\codem{succ}y))\\
+		\codem{in}\ &aux\\
+		&\codem{in\ }plus
+	\end{align*}
+
+	\begin{align*}
+		\codem{let\ rec}\ &fois=\lambda x^{\types{int}} .\\
+		&\codem{let}\ aux = \\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{pred}x)\ y))\\
+		\codem{in}\ &aux\\
+		&\codem{in\ }fois
+	\end{align*}
+
+
+	\paragraph{Question 3.}
+	En Mini-ML, la fonction factorielle peut s'écrire ainsi
+	let rec f = $\lambda x^{int}$.\\
+	if x=0 then 1 else fois x (f (\code{pred}x))\\
+	in f\\
+
+	\paragraph{Question 4.}
+	Même s'il n'est pas possible d'écrire\\
+	let (x,y) =(2,3) in x\\
+	en Mini-ML, on peut s'en sortir en utilisant les fonctions \code{fst} et \code{snd} de la façon suivante\\
+	let c = (2,3) in let x = fst c in let y = snd c in x
+
+	\paragraph{Question 5.}
+	Comme en OCaml le système de type est correct par rapport à la sémantique à petit pas de Mini-ML, c'est-à-dire qu'il n'y a pas de problème de type lors de l'execution d'un programme bien typé. Ainsi le système de type nous assure qu'il n'est pas nécessaire de vérifier les types à l'éxecution.
+
+	\paragraph{Question 6.}
+
+	\paragraph{Question 7.}
+
+	\section{Implémentation de Mini-ML}
+	\paragraph{Question 11.}
+
+
 
 
 
