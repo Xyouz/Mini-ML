@@ -4,11 +4,11 @@ let rec subs exp x rep = match exp with
   | l,Var(y) when x=y -> rep
   | _,Var(_)| _,Int(_) |_,Bool(_) -> exp
   | l,App(u,t) -> l,App((subs u x rep), (subs t x rep))
-  | l,Lam(y,_,e) -> (
+  | l,Lam(y,t,e) -> (
       if (x = y) then
-        failwith "Bound variable when subs in lambda"
+        l,Lam(y,t,e)
       else
-        l,Lam(y,None,(subs e x rep))
+        l,Lam(y,t,(subs e x rep))
     )
   | l,Pair(e1,e2) -> let e1p = subs e1 x rep and
     e2p = subs e2 x rep in
@@ -25,7 +25,7 @@ let rec subs exp x rep = match exp with
   | l,Proj(Right(e)) -> l,Proj(Right(subs e x rep))
   | l,LetIn(y,e1,e2) -> (
       if (x = y) then
-        failwith "Bound variable when subs in LetIn"
+        l,LetIn(y,e1,e2)
       else
         let e1p = subs e1 x rep and
         e2p = subs e2 x rep in
@@ -66,8 +66,8 @@ let rec eval_expr expr context = match expr with
     let cp = eval_expr (ll,c) context in
     eval_expr (l,Ite((ll,cp),t,u)) context
   | _,Binop(op,e1,e2) -> eval_binop op e1 e2 context
-  | l,Fix((ll,Lam(x,_,t))) -> (
-      eval_expr (subs t x (l,(Fix (ll,Lam(x,None,t))))) context
+  | l,Fix((ll,Lam(x,top,t))) -> (
+      eval_expr (subs t x (l,(Fix (ll,Lam(x,top,t))))) context
     )
   | l,Fix((ll,t)) -> let tp = eval_expr (ll,t) context in
     eval_expr (l,Fix((ll,tp))) context
@@ -110,4 +110,4 @@ let eval_cmd context cmd = match cmd with
   | l,LetRec(x,t,e) -> let res = eval_expr (l,Fix(l,Lam(x,t,e))) context
     in (x,res)::context
 
-let eval_ast cmds = List.fold_left eval_cmd [] cmds
+let eval_ast cmds = List.rev (List.fold_left eval_cmd [] cmds)
