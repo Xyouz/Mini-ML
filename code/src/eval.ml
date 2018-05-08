@@ -39,7 +39,13 @@ let isValue exp = match exp with
 
 let rec eval_expr expr context = match expr with
   | _,Unit -> Unit
-  | _, Var(v) -> List.assoc v context
+  | _, Var(v) -> (
+      try (
+        List.assoc v context
+      )
+      with
+        Not_found -> failwith ("unbound var : " ^ v)
+    )
   | l, App((ll,Lam(x,_,t)),(lll,u)) -> (
       if (isValue u) then
          eval_expr (subs t x (lll,u)) context

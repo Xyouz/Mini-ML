@@ -13,12 +13,12 @@
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{mathrsfs}
-
+\usepackage{listings}
 %\usepackage{fancyhdr}
 %\usepackage{lastpage}
 % \usepackage{nicefrac}
 \usepackage{mathpartir}
-
+\lstset{language=caml}
 \title{\titre}
 \date{}
 \author{\auteur}
@@ -44,7 +44,7 @@
 
 \newcommand{\prop}{\mathcal{P}}
 
-\newcommand{\sem}{\Rightarrow}
+\newcommand{\sem}{\hookrightarrow}
 
 \newcommand{\parEnt}[1]{\lfloor #1\rfloor}
 
@@ -111,15 +111,15 @@
 
 	\paragraph{Question 1.}
 	Pour inclure les fonctions \code{pred} et \code{succ} on ajoute les règles de sémantique et de typage suivantes
-	\[ \frac{t \sem u}{\codem{succ}t\sem\codem{succ}{u}}\qquad \frac{t \sem u}{\codem{pred}t\sem\codem{pred}{u}} \]
-	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ}n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{pred}n:\types{nat}}\]
+	\[ \frac{t \sem u}{\codem{succ\ }t\sem\codem{succ\ }{u}}\qquad \frac{t \sem u}{\codem{pred\ }t\sem\codem{pred\ }{u}} \]
+	\[\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{succ\ }n:\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{nat}}{\Gamma\vdash \codem{pred\ }n:\types{nat}}\]
 
 	\paragraph{Question 2.}
 	On définit les fonctions \code{plus} et \code{fois} de la façon suivante
 	\begin{align*}
 		\codem{let\ rec}\ &plus\ = \lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
-		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ y\ \codem{else}(plus(\codem{pred}x)(\codem{succ}y))\\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\ \codem{then}\ y\ \codem{else}(plus(\codem{pred}x)(\codem{succ}y))\\
 		\codem{in}\ &aux\\
 		&\codem{in\ }plus
 	\end{align*}
@@ -127,7 +127,7 @@
 	\begin{align*}
 		\codem{let\ rec}\ &fois=\lambda x^{\types{int}} .\\
 		&\codem{let}\ aux = \\
-		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{pred}x)\ y))\\
+		&\hspace{0.75cm}\lambda y^{\types{int}}.\codem{if\ }x=0\ \codem{then}\ 0\ \codem{else}(plus\ y\ (fois(\codem{pred}x)\ y))\\
 		\codem{in}\ &aux\\
 		&\codem{in\ }fois
 	\end{align*}
@@ -152,11 +152,68 @@
 
 	\paragraph{Question 7.}
 
-	\section{Implémentation de Mini-ML}
+	\paragraph{Question 8.}On doit pouvoir se passer de fonctions mutuellement récursives en remplaçant
+	\begin{lstlisting}
+let rec f x = ... and g y = ...
+		\end{lstlisting}
+	par
+	\begin{lstlisting}
+let rec f x = let g = fix(...) in ...
+	\end{lstlisting}
+
+	\paragraph{Question 9.}
+	$\neq$ signifie l'inégalité de façon large, en dehors des types de bases on ne peut cependant pas la tester, on aurait pu limiter le test d'égalité aux types de base au moment du typage pour éviter ce problème.
+		\section{Implémentation de Mini-ML}
 	\paragraph{Question 11.}
+	Ces commandes permettent de définir des fonctions et des variables accessibles globalement.
+
+	\paragraph{Question 12.}
+	\begin{lstlisting}
+let x = e
+...
+	\end{lstlisting}
+se transforme en
+\begin{lstlisting}
+let x = e in ...
+\end{lstlisting}
+et
+\begin{lstlisting}
+let rec f = e
+...
+	\end{lstlisting}
+se transforme en
+\begin{lstlisting}
+let x = Fix(e) in ...
+\end{lstlisting}
 
 
+\paragraph{Question 13.}
+Voici les règles de typage et d'évaluation pour les opérateurs $ && $ et $+$:
+\[ \frac{t \sem t'}{t+v \sem t'+v}}\qquad\frac{v \sem v'}{t+v\sem t+v'}} \]
+\[\frac{t \sem t'}{t\&\&v\sem t'\&\&v}}\qquad\frac{v \sem v'}{t\&\&v\sem t\&\&v'}} \]
+	\[\frac{\Gamma\vdash  n : \types{nat},n':\types{nat}}{\Gamma\vdash n+n':\types{nat}} \qquad\frac{\Gamma\vdash  n : \types{bool},n':\types{bool}}{\Gamma\vdash n\&\&n':\types{bool}}\]
 
+\paragraph{Question 14.}
+\code{let rec \dots in \dots} peut se réécrire en fonction de \code{let \dots in \dots} et de \code{fix}, on a donc moins de cas à traiter en ne l'incluant pas dans l'AST mais on ne perd pas en expressivité pour autant.
 
+\paragraph{Question 15.}
+L'option permet au programmeur de ne pas spécifier de type et de laisser au système de type la tâche de retrouver les types correspondants.
+
+\paragraph{Question 16.}
+Mon implémentation offre un polymorphisme partiel,
+\begin{lstlisting}
+let id x = x
+let _ = id 3
+let _ = id true
+\end{lstlisting}
+type correctement mais pas
+\begin{listings}
+let id x = x
+let _ = (id 3, id true)
+\end{listings}
+
+\paragraph{Question 18.}
+On rajoute \code{()} aux valeurs et on ajoute les règles suivantes
+\[ \frac{}{\Gamma\vdash ():\code{unit}} \]
 
 \end{document}

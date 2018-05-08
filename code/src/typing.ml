@@ -126,6 +126,9 @@ let subs_list t cl = let aux tt c = match c with
     | _ -> failwith "Unification faite avec les pieds"
   in  List.fold_left aux t cl
 
+let find_my_fun exp = match exp with
+  | l,Lam(_,_,e) -> e
+  | _ -> failwith "Error"
 
 let rec typing_cmd c context = match c with
   | l,Let(v,_,e) -> (
@@ -134,27 +137,11 @@ let rec typing_cmd c context = match c with
       let t' = subs_list t c' in
       ((l,Let(v,Some(t'),e)),(v,t')::context)
     )
- (* | l,LetRec(v,Some(t),e) -> (
-      let t',c,e' = constraints_expr e ((v,t)::context) [] in
-      let c' = unification ((t,t')::c) [] in
-      let tt = subs_list t c' in
-      ((l,LetRec(v,Some(tt),e)),(v,tt)::context)
-    )*)
-  | l,LetRec(v,Some(t),e) -> ((*
-      Printer.print_expr Format.std_formatter (snd e);
-    Format.fprintf Format.std_formatter "\n";
-      Printer.print_expr Format.std_formatter (Lam(v, Some(t), e));
-    Format.fprintf Format.std_formatter "\n\n";*)
+  | l,LetRec(v,Some(t),e) -> (
       let t',c,e' = constraints_expr (l,Lam(v,Some(t),e)) ((v,t)::context) [] in
-   (* (List.iter
-  (fun (t,t')-> Printer.print_ty Format.std_formatter t;
-    Format.fprintf Format.std_formatter "\n";
-    Printer.print_ty Format.std_formatter t';
-    Format.fprintf  Format.std_formatter "\n\n") (((TyArrow(t,t),t')::c)));*)
-let vt = TyVar(Genlab.label ()) in
-let c' = unification ((TyArrow(t,t),t')::c) [] in
+   let c' = unification ((TyArrow(t,t),t')::c) [] in
 let tt = subs_list t c' in
-      ((l,LetRec(v,Some(tt),e')),(v,tt)::context)
+      ((l,LetRec(v,Some(tt),(find_my_fun e'))),(v,tt)::context)
     )
   | l,LetRec(v,None,e) -> (
       Genlab.next_letter ();
@@ -164,5 +151,5 @@ let tt = subs_list t c' in
 let rec typing_ast ast =
   let astCont = List.fold_left
       (fun (a,conte) c -> let (ct,cont)= typing_cmd c conte in ((ct::a),cont))  ([],[]) ast
-  in Ok(fst astCont)
+  in Ok(List.rev (fst astCont))
 
