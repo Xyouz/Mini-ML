@@ -10,13 +10,14 @@
 %}
 
 %token EOF
+%token<Utils.loc> UNITV
 %token ARROW
 %token COMMA COLON
 %token LEFTPAR RIGHTPAR
 %token EQUAL PLUS MINUS TIMES DIV AND OR
 %token LET REC IN FUN
 %token GT
-%token INT BOOL
+%token UNIT INT BOOL
 %token IF FST SND
 %token THEN ELSE
 %token<Utils.loc*string> ID
@@ -46,6 +47,8 @@ main: cmd* EOF
       { $1 }
 
 typ:
+    | UNIT
+    { TyUnit }
     | INT
     { TyInt }
     | BOOL
@@ -88,6 +91,8 @@ atomicexpr:
         { $1, Bool true }
     | FALSE
         { $1, Bool false }
+    | UNITV
+        { $1, Unit }
 
 appexpr:
     | s=atomicexpr

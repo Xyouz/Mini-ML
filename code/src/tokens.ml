@@ -16,9 +16,11 @@ type token =
   | REC
   | FUN
   | IN
+  | UNIT
   | INT
   | BOOL
   | TYID of string
+  | UNITV of Utils.loc
   | NUM of (Utils.loc * int)
   | TRUE of Utils.loc
   | FALSE of Utils.loc

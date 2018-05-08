@@ -1,6 +1,6 @@
 (* Example of well-formed programs *)
 
-let rec f (x:int) =
+let rec f x =
   if x = 0 then
     1
   else

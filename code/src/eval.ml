@@ -1,6 +1,7 @@
 open Ast
 
 let rec subs exp x rep = match exp with
+  | _,Unit -> exp
   | l,Var(y) when x=y -> rep
   | _,Var(_)| _,Int(_) |_,Bool(_) -> exp
   | l,App(u,t) -> l,App((subs u x rep), (subs t x rep))
@@ -33,10 +34,11 @@ let rec subs exp x rep = match exp with
     )
 
 let isValue exp = match exp with
-  | Lam(_,_,_) | Pair(_,_) | Int(_) | Bool(_) -> true
+  | Lam(_,_,_) | Pair(_,_) | Int(_) | Bool(_) | Unit -> true
   | _ -> false
 
 let rec eval_expr expr context = match expr with
+  | _,Unit -> Unit
   | _, Var(v) -> List.assoc v context
   | l, App((ll,Lam(x,_,t)),(lll,u)) -> (
       if (isValue u) then

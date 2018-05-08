@@ -26,6 +26,7 @@ rule token = parse
   | "snd"     { SND }
   | "true"    { TRUE (get_loc lexbuf) }
   | "false"   { FALSE (get_loc lexbuf) }
+  | "()"      { UNITV (get_loc lexbuf) }
   | "&&"      { AND }
   | "||"      { OR }
   | '\n'      { new_line lexbuf ; token lexbuf }

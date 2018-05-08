@@ -9,6 +9,7 @@ type var_ty = string
 type ty =
   | TyInt
   | TyBool
+  | TyUnit
   | TyVar of var_ty
   | TyArrow of ty * ty
   | TyTimes of ty * ty
@@ -16,6 +17,7 @@ type ty =
 type 'a either = Left of 'a | Right of 'a
 
 type expr =
+  | Unit
   | Var   of var
   | App   of expr loc * expr loc
   | Lam   of var * ty option * expr loc
@@ -27,7 +29,6 @@ type expr =
   | Proj  of expr loc either
   | Ite   of expr loc * expr loc * expr loc
   | Binop of binop * expr loc * expr loc
-
 
 type cmd =
   | Let  of var * ty option * expr loc

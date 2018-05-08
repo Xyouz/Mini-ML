@@ -1,3 +1,4 @@
+
 open Ast
 
 (* TODO:
@@ -27,6 +28,7 @@ let print_var    fmt = Format.fprintf fmt "%s"
 let print_var_ty fmt = Format.fprintf fmt "%s"
 
 let rec print_ty fmt = function
+  | TyUnit  -> Format.fprintf fmt "unit"
   | TyInt   -> Format.fprintf fmt "int"
   | TyBool  -> Format.fprintf fmt "bool"
   | TyVar x -> Format.fprintf fmt "%a" print_var_ty x
@@ -55,6 +57,7 @@ let rec print_expr fmt expr =
   | Var v  -> Format.fprintf fmt "%a" print_var v
   | Int i  -> Format.fprintf fmt "%d" i
   | Bool b -> Format.fprintf fmt "%b" b
+  | Unit   -> Format.fprintf fmt "()"
   | App(el,er) when is_app el -> Format.fprintf fmt "%a %a" print_lc_expr el print_lc_expr_wp er
   | App(el,er)                -> Format.fprintf fmt "%a %a" print_lc_expr_wp el print_lc_expr_wp er
   | Lam(var, mty, e)          -> Format.fprintf fmt "fun %a -> %a"
